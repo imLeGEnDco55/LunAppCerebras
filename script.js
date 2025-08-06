@@ -492,8 +492,8 @@ function showAPIKeyPanel(show) {
 // Cambia validación de API Key para Cerebras
 function validateAPIKeyFormat(key) {
     const trimmed = key.trim().replace(/\s/g, "");
-    // Cerebras keys empiezan con "cb-"
-    if (/^cb-[A-Za-z0-9_-]{20,}$/.test(trimmed)) {
+    // Cerebras keys empiezan con "csk-"
+    if (/^csk-[A-Za-z0-9_-]{20,}$/.test(trimmed)) {
         return true;
     }
     return false;
@@ -502,7 +502,7 @@ apikeySaveBtn.addEventListener('click', () => {
     const key = apikeyInput.value.trim().replace(/\s/g, "");
     apikeyError.textContent = '';
     if (!validateAPIKeyFormat(key)) {
-        apikeyError.textContent = 'Por favor ingresa una API Key válida de Cerebras (debe comenzar con "cb-").';
+        apikeyError.textContent = 'Por favor ingresa una API Key válida de Cerebras (debe comenzar con "csk-").';
         return;
     }
     openaiApiKey = key;
@@ -679,7 +679,7 @@ function loadStyleContext() {
         showAPIKeyPanel(true);
         chatBox.innerHTML = '';
         conversationHistory = [];
-        addMessageToChat('No hay ninguna API Key de Cerebras asignada a este chat. Ve a configuración para agregar o asignar una.', 'ai');
+        addMessageToChat('No hay ninguna API Key de Cerebras asignada a este chat. Ve a configuración para agregar o asignar una (debe comenzar con "csk-").', 'ai');
         return;
     }
     showAPIKeyPanel(false);
