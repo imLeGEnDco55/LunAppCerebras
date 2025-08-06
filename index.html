@@ -1,0 +1,93 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Chat</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- PWA manifest and theme -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#3c82f6">
+    <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+
+</head>
+<body>
+    <!-- API Key Panel (initially visible) -->
+    <div id="apikey-panel" class="modal-panel">
+      <div class="panel-content">
+        <h2>Connect to Cerebras</h2>
+        <label for="apikey-input">Cerebras API Key</label>
+        <input type="password" id="apikey-input" placeholder="cb-...">
+        <button id="apikey-save-btn">Connect</button>
+        <p class="apikey-hint">
+          <small>Your API key is stored only in this browser and never sent elsewhere.</small>
+        </p>
+        <p id="apikey-error" class="apikey-error"></p>
+      </div>
+    </div>
+    <!-- Actual chat UI, hidden until API key provided -->
+    <div id="chat-container" style="display:none">
+        <!-- Add the chat header here -->
+        <div id="chat-header">
+    <h1>AI Chat</h1>
+    <div id="style-switch">
+        <button id="switch-gpt" class="active">GPT</button>
+        <button id="switch-luna">Luna</button>
+    </div>
+    <button id="admin-icon" aria-label="Settings / Change API Key">&#x1f6e0;</button>
+    <button id="reset-chat-icon" aria-label="Restart conversation">&#x21bb;</button>
+</div>
+        <div id="chat-box">
+            <!-- Messages will appear here -->
+        </div>
+        <div id="input-area">
+            <input type="text" id="user-input" placeholder="Type your message..." aria-label="Your message">
+            <button id="send-button" aria-label="Send message">Send</button>
+        </div>
+    </div>
+    <!-- Settings Modal -->
+    <div id="settings-modal" class="modal-panel" style="display:none; z-index:20;">
+      <div class="panel-content" style="min-width:320px; max-width:96vw;">
+        <h2>API Keys Settings</h2>
+        <form id="add-apikey-form" autocomplete="off" style="display:flex; flex-direction:column; gap:0.5em; margin-bottom:1em;">
+          <label for="apikey-name-input">Symbolic Name</label>
+          <input type="text" id="apikey-name-input" placeholder="e.g. Trabajo, Personal" maxlength="32" required>
+          <label for="apikey-value-input">Cerebras API Key</label>
+          <input type="password" id="apikey-value-input" placeholder="cb-..." required>
+          <button type="submit">Add API Key</button>
+        </form>
+        <div id="apikey-list-section">
+          <h3>Saved API Keys</h3>
+          <ul id="apikey-list" style="list-style:none; padding-left:0;"></ul>
+        </div>
+        <!-- Contexts Section -->
+        <div id="context-list-section" style="margin-top:1.5em;">
+          <h3>Contextos (Prompts Base)</h3>
+          <form id="add-context-form" style="display:flex; flex-direction:column; gap:0.4em; margin-bottom:0.7em;">
+            <input type="text" id="context-name-input" placeholder="Nombre del contexto" maxlength="32" required>
+            <textarea id="context-text-input" placeholder="Texto base del contexto" rows="2" maxlength="500" required style="resize:vertical;"></textarea>
+            <button type="submit">Agregar Contexto</button>
+          </form>
+          <ul id="context-list" style="list-style:none; padding-left:0; margin-bottom:0.5em;"></ul>
+          <div id="context-assign-info" style="font-size:0.97em; margin-top:0.7em;"></div>
+        </div>
+        <div style="margin-top:1.2em; display:flex; gap:0.7em; flex-wrap:wrap;">
+          <button id="export-data-btn">Exportar datos</button>
+          <button id="import-data-btn">Importar datos</button>
+          <button id="delete-all-btn" style="background:#c00; color:#fff;">Delete All Info</button>
+          <input type="file" id="import-data-file" accept="application/json" style="display:none;">
+        </div>
+        <button id="close-settings-btn" style="margin-top:1em;">Close</button>
+        <p id="settings-error" class="apikey-error"></p>
+      </div>
+    </div>
+    <script src="script.js"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('service-worker.js');
+        });
+      }
+    </script>
+</body>
+</html>
